@@ -7,12 +7,61 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp11
 {
+    
     public class API
     {
-        private readonly uScanConfig scanConfig=new uScanConfig();
-        
-        public static void WriteScanCFG()
+        private  static uScanConfig scanConfig = new uScanConfig() {
+            ScanCfg = new ScanConfig()
+            {
+                ConfigName="TestCfg",
+                WavelengthStartNm=900,
+                WavelengthEndNm=1700,
+                NumPatterns=1,
+                NumRepeats=1,
+                ScanConfigIndex=0,
+                ScanType=0,
+                ScanConfigSerialNumber="UB128039",
+                WidthPx=2
+            }
+        };
+
+        public static byte[] WriteScanCFG()
         {
+            // Calculate the size of the uScanConfig struct
+            int size = Marshal.SizeOf(typeof(uScanConfig));
+
+            // Allocate buffer of the correct size
+            IntPtr buffer = Marshal.AllocHGlobal(size);
+
+            try
+            {
+                // Initialize the buffer to zero
+                for (int i = 0; i < size; i++)
+                    Marshal.WriteByte(buffer, i, 0);
+
+                // Write the scan configuration to the buffer
+                Marshal.StructureToPtr(scanConfig, buffer, false);
+
+                // Create a UIntPtr for the buffer size
+                UIntPtr bufferSize = new UIntPtr((uint)size);
+
+                // Call the function
+                DLPSPEC_ERR_CODE err = APILib.dlpspec_scan_write_configuration(ref scanConfig, buffer, bufferSize);
+
+                // Check for errors
+                if (err != DLPSPEC_ERR_CODE.DLPSPEC_PASS)
+                {
+                    // Handle the error
+                    throw new Exception("dlpspec_scan_write_configuration failed with error code: " + err);
+                }
+                Console.WriteLine( "Configuration written!");
+                return StructToBytes(scanConfig);
+            }
+            finally
+            {
+                // Always free the allocated unmanaged memory
+                Marshal.FreeHGlobal(buffer);
+            }
         }
         public static void ApplyScanConfig(byte[] config)
         {
@@ -46,10 +95,10 @@ namespace ConsoleApp11
                 throw new Exception("Failed to set active scan index.");
             }
         }
-        public static void SetNumOfRepeats()
+        public static void SetNumOfRepeats(ushort repeats)
         {
             // Attempt to set the active scan index
-            int result = APILib.NNO_SetScanNumRepeats(1);
+            int result = APILib.NNO_SetScanNumRepeats(repeats);
             if (result < 0)
             {
                 throw new Exception("Failed to set num of repeats.");
@@ -112,10 +161,38 @@ namespace ConsoleApp11
                 Marshal.FreeHGlobal(pData);
             }
         }
-    
-        public static void InterpretResult()
-        {
 
+        public static scanResults InterpretScanData(byte[] byteArray)
+        {
+            int size = byteArray.Length;
+            IntPtr ptr = Marshal.AllocHGlobal(size);
+
+            Marshal.Copy(byteArray, 0, ptr, size);
+
+            scanResults results = new scanResults();
+            DLPSPEC_ERR_CODE errCode = APILib.dlpspec_scan_interpret(ptr, (UIntPtr)size, ref results);
+
+            if (errCode != DLPSPEC_ERR_CODE.DLPSPEC_PASS)
+            {
+                // handle error
+                Console.WriteLine("Error interpreting scan data. Error Code: {0}", errCode);
+            }
+
+            Marshal.FreeHGlobal(ptr);
+
+            return results;
+        }
+        //additional
+        private static byte[] StructToBytes(uScanConfig config)
+        {
+            int size = Marshal.SizeOf(config);
+            byte[] arr = new byte[size];
+
+            IntPtr ptr = Marshal.AllocHGlobal(size);
+            Marshal.StructureToPtr(config, ptr, true);
+            Marshal.Copy(ptr, arr, 0, size);
+            Marshal.FreeHGlobal(ptr);
+            return arr;
         }
     }
 }

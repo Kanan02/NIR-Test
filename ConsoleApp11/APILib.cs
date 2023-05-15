@@ -58,17 +58,107 @@ namespace ConsoleApp11
     }
     public enum DLPSPEC_ERR_CODE
     {
-        // add the enum values here. I don't see the actual values in the header file you provided
+        DLPSPEC_PASS = 0,
+        ERR_DLPSPEC_FAIL = -1,
+        ERR_DLPSPEC_INVALID_INPUT = -2,
+        ERR_DLPSPEC_INSUFFICIENT_MEM = -3,
+        ERR_DLPSPEC_TPL = -4,
+        ERR_DLPSPEC_ILLEGAL_SCAN_TYPE = -5,
+        ERR_DLPSPEC_NULL_POINTER = -6
+    }
+    public enum ExpTime
+    {
+        T_635_US,
+        T_1270_US,
+        T_2450_US,
+        T_5080_US,
+        T_15240_US,
+        T_30480_US,
+        T_60960_US,
+    }
+
+    public struct SlewScanSection
+    {
+        public byte SectionScanType;
+        public byte WidthPx;
+        public ushort WavelengthStartNm;
+        public ushort WavelengthEndNm;
+        public ushort NumPatterns;
+        public ExpTime ExposureTime;
+    }
+
+    public struct SlewScanConfig
+    {
+        public byte ScanType;
+        public ushort ScanConfigIndex;
+        public string ScanConfigSerialNumber;
+        public string ConfigName;
+        public ushort NumRepeats;
+        public byte NumSections;
+        public SlewScanSection Section1;
+        public SlewScanSection Section2;
+        public SlewScanSection Section3;
+        public SlewScanSection Section4;
+        public SlewScanSection Section5;
+    }
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ScanConfig
+    {
+        public byte ScanType;
+        public ushort ScanConfigIndex;
+        public string ScanConfigSerialNumber;
+        public string ConfigName;
+        public ushort WavelengthStartNm;
+        public ushort WavelengthEndNm;
+        public byte WidthPx;
+        public ushort NumPatterns;
+        public ushort NumRepeats;
+    }
+
+
+    public struct DateTimeStruct
+    {
+        public byte Year;
+        public byte Month;
+        public byte Day;
+        public byte DayOfWeek;
+        public byte Hour;
+        public byte Minute;
+        public byte Second;
+    }
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ScanDataHeadBody
+    {
+        public short systemTempHundredths;
+        public short detectorTempHundredths;
+        public ushort humidityHundredths;
+        public ushort lampPd;
+        public uint scanDataIndex;
+        // Assuming calibCoeffs is an array of doubles
+        public double[] calibCoeffs;
+        public string serialNumber;
+        public ushort adcDataLength;
+        public byte blackPatternFirst;
+        public byte blackPatternPeriod;
+        public byte pga;
+    }
+    [StructLayout(LayoutKind.Sequential)]
+    public struct scanResults
+    {
+        public uint headerVersion;
+        public string scanName;
+        public DateTimeStruct dateTime;
+        public ScanDataHeadBody scanDataHeadBody;
+        public SlewScanConfig config;
+        public double[] wavelength;
+        public int[] intensity;
+        public int length;
     }
     [StructLayout(LayoutKind.Sequential)]
     public struct uScanConfig
     {
-        // add the fields here. You'll need to create other structs for scanConfig and slewScanConfig
-    }
+        public ScanConfig ScanCfg;
 
-    [StructLayout(LayoutKind.Sequential)]
-    public struct scanResults
-    {
-        // add the fields here
+        public SlewScanConfig SlewScanCfg;
     }
 }

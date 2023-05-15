@@ -37,10 +37,10 @@ NNO_FILE_TYPE;
 
 
 
-API.WriteScanCFG();
-API.ApplyScanConfig(new byte[] { });
+var conf=API.WriteScanCFG();
+API.ApplyScanConfig(conf);
 API.SetActiveScanIndex(0);
-API.SetNumOfRepeats();
+API.SetNumOfRepeats(1);
 int time = API.GetScanTime();
 Console.WriteLine(  time);
 
@@ -50,4 +50,9 @@ while (!API.ScanCompleted())
     Thread.Sleep(100);
 }
 byte[]data=API.GetFileData();
-API.InterpretResult();
+var scanres=API.InterpretScanData(data);
+Console.WriteLine( $"Length: {scanres.length}" );
+for (int i = 0; i < scanres.wavelength.Length; i++)
+{
+    Console.WriteLine($"Wavelength: {scanres.wavelength[i]}    Intensity:{scanres.intensity[i]}" );
+}
