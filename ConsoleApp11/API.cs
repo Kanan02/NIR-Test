@@ -27,40 +27,38 @@ namespace ConsoleApp11
 
         public static byte[] WriteScanCFG()
         {
-            // Calculate the size of the uScanConfig struct
-            int size = Marshal.SizeOf(typeof(uScanConfig));
+            // Get the buffer size
+            UIntPtr bufSize;
+            DLPSPEC_ERR_CODE result = APILib.dlpspec_get_scan_config_dump_size(ref scanConfig, out bufSize);
 
-            // Allocate buffer of the correct size
-            IntPtr buffer = Marshal.AllocHGlobal(size);
+            if (result != DLPSPEC_ERR_CODE.DLPSPEC_PASS)
+            {
+                throw new Exception($"Failed to get buffer size with error code: {result}");
+            }
+
+            // Allocate unmanaged memory for the buffer
+            IntPtr pBuf = Marshal.AllocHGlobal((int)bufSize);
 
             try
             {
-                // Initialize the buffer to zero
-                for (int i = 0; i < size; i++)
-                    Marshal.WriteByte(buffer, i, 0);
+                // Write configuration
+                result = APILib.dlpspec_scan_write_configuration(ref scanConfig, pBuf, bufSize);
 
-                // Write the scan configuration to the buffer
-                Marshal.StructureToPtr(scanConfig, buffer, false);
-
-                // Create a UIntPtr for the buffer size
-                UIntPtr bufferSize = new UIntPtr((uint)size);
-
-                // Call the function
-                DLPSPEC_ERR_CODE err = APILib.dlpspec_scan_write_configuration(ref scanConfig, buffer, bufferSize);
-
-                // Check for errors
-                if (err != DLPSPEC_ERR_CODE.DLPSPEC_PASS)
+                if (result != DLPSPEC_ERR_CODE.DLPSPEC_PASS)
                 {
-                    // Handle the error
-                    throw new Exception("dlpspec_scan_write_configuration failed with error code: " + err);
+                    throw new Exception($"Failed to write configuration with error code: {result}");
                 }
-                Console.WriteLine( "Configuration written!");
-                return StructToBytes(scanConfig);
+                Console.WriteLine(  "Configuration written");
+                // Create a managed byte array to hold the data
+                byte[] buffer = new byte[(int)bufSize];
+                Marshal.Copy(pBuf, buffer, 0, (int)bufSize);
+
+                return buffer;
             }
             finally
             {
-                // Always free the allocated unmanaged memory
-                Marshal.FreeHGlobal(buffer);
+                // Free the unmanaged memory
+                Marshal.FreeHGlobal(pBuf);
             }
         }
         public static void ApplyScanConfig(byte[] config)
