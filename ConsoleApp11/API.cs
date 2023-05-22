@@ -192,5 +192,9 @@ namespace ConsoleApp11
             Marshal.FreeHGlobal(ptr);
             return arr;
         }
+        public static int SetHibernate(bool hibernate)
+        {
+            return APILib.NNO_SetHibernate(hibernate);
+        }
     }
 }

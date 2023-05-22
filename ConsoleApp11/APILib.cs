@@ -35,6 +35,9 @@ namespace ConsoleApp11
         public static extern int NNO_GetFileSizeToRead(NNO_FILE_TYPE fileType);
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int NNO_SetHibernate(bool hibernate);
+
+        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern int NNO_GetFileData(IntPtr pData, ref int pSizeInBytes);
         [DllImport(DLL_NAME2, CallingConvention = CallingConvention.Cdecl)]
         public static extern DLPSPEC_ERR_CODE dlpspec_get_scan_config_dump_size(ref uScanConfig pCfg, out UIntPtr pBufSize);

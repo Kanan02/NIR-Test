@@ -36,6 +36,7 @@ NNO_FILE_TYPE;
 
 
 
+Console.WriteLine(API.SetHibernate(false)); 
 
 var conf=API.WriteScanCFG();
 API.ApplyScanConfig(conf);
