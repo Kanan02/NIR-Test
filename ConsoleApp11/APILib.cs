@@ -36,6 +36,12 @@ namespace ConsoleApp11
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern int NNO_SetHibernate(bool hibernate);
+        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int USB_Open();
+        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int USB_Close();
+        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool USB_IsConnected();
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern int NNO_GetFileData(IntPtr pData, ref int pSizeInBytes);

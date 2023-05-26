@@ -34,8 +34,8 @@ NNO_FILE_TYPE;
 //10. dlpspec_scan_interpret() 
 
 
-
-
+Console.WriteLine(APILib.USB_Open());
+Console.WriteLine(APILib.USB_IsConnected());
 Console.WriteLine(API.SetHibernate(false)); 
 
 var conf=API.WriteScanCFG();
@@ -57,3 +57,4 @@ for (int i = 0; i < scanres.wavelength.Length; i++)
 {
     Console.WriteLine($"Wavelength: {scanres.wavelength[i]}    Intensity:{scanres.intensity[i]}" );
 }
+Console.WriteLine(APILib.USB_Close());
