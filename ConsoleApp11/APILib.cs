@@ -56,7 +56,14 @@ namespace ConsoleApp11
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool USB_IsConnected();
         #endregion
+        #region Serial Port functions
+        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int Serial_Open(string Port);
 
+        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Serial_Close();
+
+        #endregion
         #region DLPSPEC Funcitons
         [DllImport(DLL_NAME2, CallingConvention = CallingConvention.Cdecl)]
         public static extern DLPSPEC_ERR_CODE dlpspec_get_scan_config_dump_size(ref uScanConfig pCfg, out UIntPtr pBufSize);
