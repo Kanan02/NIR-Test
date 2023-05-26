@@ -11,8 +11,8 @@ namespace ConsoleApp11
     {
 
         const string DLL_NAME = "nano_api.dll";
-        const string DLL_NAME2 = "libdlpspec.dll"; 
-
+        const string DLL_NAME2 = "libdlpspec.dll";
+        #region API Funcitons
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern int NNO_ApplyScanConfig(IntPtr pBuffer, int bufSize);
 
@@ -36,23 +36,34 @@ namespace ConsoleApp11
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern int NNO_SetHibernate(bool hibernate);
+
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int USB_Open();
-        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int USB_Close();
-        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool USB_IsConnected();
+        public static extern int NNO_SetUARTConnected(bool connected);
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern int NNO_GetFileData(IntPtr pData, ref int pSizeInBytes);
+        #endregion
+        #region USB Funcitons
+        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int USB_Open();
+        
+        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int USB_Close();
+        
+        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool USB_IsConnected();
+        #endregion
+
+        #region DLPSPEC Funcitons
         [DllImport(DLL_NAME2, CallingConvention = CallingConvention.Cdecl)]
         public static extern DLPSPEC_ERR_CODE dlpspec_get_scan_config_dump_size(ref uScanConfig pCfg, out UIntPtr pBufSize);
+        
         [DllImport(DLL_NAME2, CallingConvention = CallingConvention.Cdecl)]
         public static extern DLPSPEC_ERR_CODE dlpspec_scan_write_configuration(ref uScanConfig pCfg, IntPtr pBuf, UIntPtr bufSize);
 
         [DllImport(DLL_NAME2, CallingConvention = CallingConvention.Cdecl)]
         public static extern DLPSPEC_ERR_CODE dlpspec_scan_interpret(IntPtr pBuf, UIntPtr bufSize, ref scanResults pResults);
-
+        #endregion
     }
     public enum NNO_FILE_TYPE
     {

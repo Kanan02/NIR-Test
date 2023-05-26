@@ -35,26 +35,28 @@ NNO_FILE_TYPE;
 
 
 Console.WriteLine(APILib.USB_Open());
-Console.WriteLine(APILib.USB_IsConnected());
-Console.WriteLine(API.SetHibernate(false)); 
-
+Console.WriteLine($"USB Connected: {APILib.USB_IsConnected()}");
+Console.WriteLine($"Set Hibernate before UART :{API.SetHibernate(false)}");
+Console.WriteLine($"UART Connected: {APILib.NNO_SetUARTConnected(true)}");
+Console.WriteLine($"Set Hibernate after UART :{API.SetHibernate(false)}");
 var conf=API.WriteScanCFG();
 API.ApplyScanConfig(conf);
-API.SetActiveScanIndex(0);
-API.SetNumOfRepeats(1);
-int time = API.GetScanTime();
-Console.WriteLine(  time);
 
-API.PerformScan(false);
-while (!API.ScanCompleted())
-{
-    Thread.Sleep(100);
-}
-byte[]data=API.GetFileData();
-var scanres=API.InterpretScanData(data);
-Console.WriteLine( $"Length: {scanres.length}" );
-for (int i = 0; i < scanres.wavelength.Length; i++)
-{
-    Console.WriteLine($"Wavelength: {scanres.wavelength[i]}    Intensity:{scanres.intensity[i]}" );
-}
+//API.SetActiveScanIndex(0);
+//API.SetNumOfRepeats(1);
+//int time = API.GetScanTime();
+//Console.WriteLine(  time);
+
+//API.PerformScan(false);
+//while (!API.ScanCompleted())
+//{
+//    Thread.Sleep(100);
+//}
+//byte[]data=API.GetFileData();
+//var scanres=API.InterpretScanData(data);
+//Console.WriteLine( $"Length: {scanres.length}" );
+//for (int i = 0; i < scanres.wavelength.Length; i++)
+//{
+//    Console.WriteLine($"Wavelength: {scanres.wavelength[i]}    Intensity:{scanres.intensity[i]}" );
+//}
 Console.WriteLine(APILib.USB_Close());
