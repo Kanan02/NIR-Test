@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using ConsoleApp11;
 using System;
+using System.Text;
 /*
 typedef enum
 {
@@ -32,16 +33,37 @@ NNO_FILE_TYPE;
 
 //9. NNO_CMD_FILE_GET_DATA | int NNO_GetFileData(void* pData,int* pSizeInBytes)
 //10. dlpspec_scan_interpret() 
-
-
 Console.WriteLine(APILib.USB_Open());
 Console.WriteLine($"USB Connected: {APILib.USB_IsConnected()}");
-Console.WriteLine($"Set Hibernate before UART :{API.SetHibernate(false)}");
-Console.WriteLine($"UART Connected: {APILib.NNO_SetUARTConnected(true)}");
-Console.WriteLine($"Set Hibernate after UART :{API.SetHibernate(false)}");
-var conf=API.WriteScanCFG();
-API.ApplyScanConfig(conf);
+Console.WriteLine($"Set Hibernate :{API.SetHibernate(false)}");
 
+StringBuilder serialNumber = new StringBuilder(10);  // Assuming 256 is sufficient size
+int result = APILib.NNO_GetSerialNumber(serialNumber);
+if (result != 0) // Assuming 0 is a successful return value
+{
+    throw new Exception("Failed to get serial number");
+}
+Console.WriteLine("Serial number: " + serialNumber);
+//uScanConfig scanConfig = new uScanConfig()
+//{
+//    ScanCfg = new ScanConfig()
+//    {
+//        ConfigName = "TestCfg",
+//        WavelengthStartNm = 900,
+//        WavelengthEndNm = 1700,
+//        NumPatterns = 1,
+//        NumRepeats = 1,
+//        ScanConfigIndex = 0,
+//        ScanType = 0,
+//        ScanConfigSerialNumber = "UB128039",
+//        WidthPx = 2
+//    }
+//};
+
+//var conf=API.WriteScanCFG();
+//API.ApplyScanConfig(conf);
+
+//Console.WriteLine($"UART Connected: {APILib.NNO_SetUARTConnected(true)}");
 //API.SetActiveScanIndex(0);
 //API.SetNumOfRepeats(1);
 //int time = API.GetScanTime();

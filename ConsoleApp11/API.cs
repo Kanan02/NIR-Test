@@ -10,22 +10,8 @@ namespace ConsoleApp11
     
     public class API
     {
-        private  static uScanConfig scanConfig = new uScanConfig() {
-            ScanCfg = new ScanConfig()
-            {
-                ConfigName="TestCfg",
-                WavelengthStartNm=900,
-                WavelengthEndNm=1700,
-                NumPatterns=1,
-                NumRepeats=1,
-                ScanConfigIndex=0,
-                ScanType=0,
-                ScanConfigSerialNumber="UB128039",
-                WidthPx=2
-            }
-        };
-
-        public static byte[] WriteScanCFG()
+       
+        public static byte[] WriteScanCFG(uScanConfig scanConfig)
         {
             // Get the buffer size
             UIntPtr bufSize;

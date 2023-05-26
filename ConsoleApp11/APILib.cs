@@ -42,6 +42,9 @@ namespace ConsoleApp11
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern int NNO_GetFileData(IntPtr pData, ref int pSizeInBytes);
+
+        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int NNO_GetSerialNumber([MarshalAs(UnmanagedType.LPStr)] StringBuilder serial_number);
         #endregion
         #region USB Funcitons
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
