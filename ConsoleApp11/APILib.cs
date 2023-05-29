@@ -48,6 +48,8 @@ namespace ConsoleApp11
         #endregion
         #region USB Funcitons
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int USB_Init();
+        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern int USB_Open();
         
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]

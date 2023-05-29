@@ -33,6 +33,7 @@ NNO_FILE_TYPE;
 
 //9. NNO_CMD_FILE_GET_DATA | int NNO_GetFileData(void* pData,int* pSizeInBytes)
 //10. dlpspec_scan_interpret() 
+Console.WriteLine(  APILib.USB_Init());
 Console.WriteLine(APILib.USB_Open());
 Console.WriteLine($"USB Connected: {APILib.USB_IsConnected()}");
 Console.WriteLine(APILib.Serial_Open("COM3"));
@@ -45,21 +46,22 @@ if (result != 0) // Assuming 0 is a successful return value
     throw new Exception("Failed to get serial number");
 }
 Console.WriteLine("Serial number: " + serialNumber);
-//uScanConfig scanConfig = new uScanConfig()
-//{
-//    ScanCfg = new ScanConfig()
-//    {
-//        ConfigName = "TestCfg",
-//        WavelengthStartNm = 900,
-//        WavelengthEndNm = 1700,
-//        NumPatterns = 1,
-//        NumRepeats = 1,
-//        ScanConfigIndex = 0,
-//        ScanType = 0,
-//        ScanConfigSerialNumber = "UB128039",
-//        WidthPx = 2
-//    }
-//};
+
+uScanConfig scanConfig = new uScanConfig()
+{
+    ScanCfg = new ScanConfig()
+    {
+        ConfigName = "TestCfg",
+        WavelengthStartNm = 900,
+        WavelengthEndNm = 1700,
+        NumPatterns = 1,
+        NumRepeats = 1,
+        ScanConfigIndex = 0,
+        ScanType = 0,
+        ScanConfigSerialNumber = serialNumber.ToString(),
+        WidthPx = 2
+    }
+};
 
 //var conf=API.WriteScanCFG();
 //API.ApplyScanConfig(conf);
