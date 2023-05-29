@@ -49,7 +49,8 @@ if (result != 0) // Assuming 0 is a successful return value
 {
     throw new Exception("Failed to get serial number");
 }
-Console.WriteLine("Serial number: " + serialNumber);
+Console.WriteLine("Serial number: " + serialNumber+"\n Length: "+serialNumber.Length.ToString());
+
 
 uScanConfig scanConfig = new uScanConfig()
 {

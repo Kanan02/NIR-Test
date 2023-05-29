@@ -140,7 +140,9 @@ namespace ConsoleApp11
     {
         public byte ScanType;
         public ushort ScanConfigIndex;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 8)]
         public string ScanConfigSerialNumber;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 40)]
         public string ConfigName;
         public ushort WavelengthStartNm;
         public ushort WavelengthEndNm;
@@ -188,11 +190,12 @@ namespace ConsoleApp11
         public int[] intensity;
         public int length;
     }
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit)]
     public struct uScanConfig
     {
+        [FieldOffset(0)]
         public ScanConfig ScanCfg;
-
+        [FieldOffset(0)]
         public SlewScanConfig SlewScanCfg;
     }
 }
