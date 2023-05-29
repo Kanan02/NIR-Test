@@ -56,11 +56,11 @@ namespace ConsoleApp11
             {
                 // Copy the config data to the unmanaged memory
                 Marshal.Copy(config, 0, pConfig, config.Length);
-
                 // Attempt to apply the config
                 int result = APILib.NNO_ApplyScanConfig(pConfig, config.Length);
                 if (result < 0)
                 {
+                    Console.WriteLine(result);
                     throw new Exception("Failed to apply scan config.");
                 }
             }
@@ -70,6 +70,7 @@ namespace ConsoleApp11
                 Marshal.FreeHGlobal(pConfig);
             }
         }
+        
         public static void SetActiveScanIndex(byte index)
         {
             // Attempt to set the active scan index
@@ -167,6 +168,38 @@ namespace ConsoleApp11
             return results;
         }
         //additional
+        public static int ApplyScanCfgtoDevice(ref uScanConfig pCfg)
+        {
+            UIntPtr bufferSize;
+            int ret;
+
+            ret = (int)APILib.dlpspec_get_scan_config_dump_size(ref pCfg, out bufferSize);
+
+            if (ret == (int)DLPSPEC_ERR_CODE.DLPSPEC_PASS)
+            {
+                IntPtr pBuffer = Marshal.AllocHGlobal((int)bufferSize);
+
+                if (pBuffer == IntPtr.Zero)
+                {
+                    return -1;
+                }
+
+                ret = (int)APILib.dlpspec_scan_write_configuration(ref pCfg, pBuffer, bufferSize);
+
+                if (ret == (int)DLPSPEC_ERR_CODE.DLPSPEC_PASS)
+                {
+                    //byte[] bufferArray = new byte[(int)bufferSize];
+                    //Marshal.Copy(pBuffer, bufferArray, 0, (int)bufferSize);
+
+                    ret = APILib.NNO_ApplyScanConfig(pBuffer, (int)bufferSize);
+                    Console.WriteLine(ret);
+                }
+
+                Marshal.FreeHGlobal(pBuffer);
+            }
+
+            return ret;
+        }
         private static byte[] StructToBytes(uScanConfig config)
         {
             int size = Marshal.SizeOf(config);

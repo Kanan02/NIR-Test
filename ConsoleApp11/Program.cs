@@ -36,8 +36,12 @@ NNO_FILE_TYPE;
 Console.WriteLine(  APILib.USB_Init());
 Console.WriteLine(APILib.USB_Open());
 Console.WriteLine($"USB Connected: {APILib.USB_IsConnected()}");
-Console.WriteLine(APILib.Serial_Open("COM3"));
-Console.WriteLine($"Set Hibernate :{API.SetHibernate(false)}");
+//for (int i = 1; i < 10; i++)
+//{
+
+//    Console.WriteLine(APILib.Serial_Open($"COM{i}"));
+//}
+//Console.WriteLine($"Set Hibernate :{API.SetHibernate(false)}");
 
 StringBuilder serialNumber = new StringBuilder(10);  // Assuming 256 is sufficient size
 int result = APILib.NNO_GetSerialNumber(serialNumber);
@@ -63,10 +67,11 @@ uScanConfig scanConfig = new uScanConfig()
     }
 };
 
-//var conf=API.WriteScanCFG();
+//var conf=API.WriteScanCFG(scanConfig);
 //API.ApplyScanConfig(conf);
-
+API.ApplyScanCfgtoDevice(ref scanConfig);
 //Console.WriteLine($"UART Connected: {APILib.NNO_SetUARTConnected(true)}");
+
 //API.SetActiveScanIndex(0);
 //API.SetNumOfRepeats(1);
 //int time = API.GetScanTime();
