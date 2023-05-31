@@ -52,25 +52,27 @@ if (result != 0) // Assuming 0 is a successful return value
 Console.WriteLine("Serial number: " + serialNumber+"\n Length: "+serialNumber.Length.ToString());
 
 
-uScanConfig scanConfig = new uScanConfig()
-{
-    ScanCfg = new ScanConfig()
-    {
-       // ConfigName = "TestCfg",
-        WavelengthStartNm = 900,
-        WavelengthEndNm = 1700,
-        //NumPatterns = 1,
-        //NumRepeats = 1,
-        //ScanConfigIndex = 0,
-        ScanType = 0,
-      //  ScanConfigSerialNumber = serialNumber.ToString(),
-        WidthPx = 7
-    }
-};
+//uScanConfig scanConfig = new uScanConfig()
+//{
+//    ScanCfg = new ScanConfig()
+//    {
+//       // ConfigName = "TestCfg",
+//        WavelengthStartNm = 900,
+//        WavelengthEndNm = 1700,
+//        //NumPatterns = 1,
+//        //NumRepeats = 1,
+//        //ScanConfigIndex = 0,
+//        ScanType = 0,
+//      //  ScanConfigSerialNumber = serialNumber.ToString(),
+//        WidthPx = 7
+//    }
+//};
 
 //var conf=API.WriteScanCFG(scanConfig);
 //API.ApplyScanConfig(conf);
-API.ApplyScanCfgtoDevice(ref scanConfig);
+//API.ApplyScanCfgtoDevice(ref scanConfig);
+
+Console.WriteLine(APILib.CApplyScanCfgtoDevice());
 //Console.WriteLine($"UART Connected: {APILib.NNO_SetUARTConnected(true)}");
 
 API.SetActiveScanIndex(0);
