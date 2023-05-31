@@ -48,7 +48,7 @@ namespace ConsoleApp11
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern int C_ApplyScanCfgtoDevice();
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int C_GetScanData(ref scanResults scan_results);
+        public static extern int C_GetScanData(ref scanResults2 scan_results);
         #endregion
         #region USB Funcitons
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]

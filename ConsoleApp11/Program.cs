@@ -87,7 +87,7 @@ while (!API.ScanCompleted())
     Thread.Sleep(100);
 }
 //byte[]data=API.GetFileData();
-scanResults scanResults=new scanResults();
+scanResults2 scanResults=new scanResults2();
 APILib.C_GetScanData(ref scanResults);
 //var scanres = API.InterpretScanData(data);
 Console.WriteLine($"Length: {scanResults.length}");
