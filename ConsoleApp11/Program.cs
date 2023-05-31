@@ -72,7 +72,7 @@ Console.WriteLine("Serial number: " + serialNumber+"\n Length: "+serialNumber.Le
 //API.ApplyScanConfig(conf);
 //API.ApplyScanCfgtoDevice(ref scanConfig);
 
-Console.WriteLine(APILib.CApplyScanCfgtoDevice());
+Console.WriteLine(APILib.C_ApplyScanCfgtoDevice());
 //Console.WriteLine($"UART Connected: {APILib.NNO_SetUARTConnected(true)}");
 
 API.SetActiveScanIndex(0);

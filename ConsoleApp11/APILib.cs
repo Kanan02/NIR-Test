@@ -46,7 +46,9 @@ namespace ConsoleApp11
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern int NNO_GetSerialNumber([MarshalAs(UnmanagedType.LPStr)] StringBuilder serial_number);
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int CApplyScanCfgtoDevice();
+        public static extern int C_ApplyScanCfgtoDevice();
+        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int C_GetScanData(ref scanResults scan_results);
         #endregion
         #region USB Funcitons
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
@@ -184,11 +186,21 @@ namespace ConsoleApp11
     public struct scanResults
     {
         public uint headerVersion;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 20)]
         public string scanName;
         public DateTimeStruct dateTime;
         public ScanDataHeadBody scanDataHeadBody;
         public SlewScanConfig config;
         public double[] wavelength;
+        public int[] intensity;
+        public int length;
+    }
+    [StructLayout(LayoutKind.Sequential)]
+    public struct scanResults2
+    {
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 864)]
+        public double[] wavelength;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 864)]
         public int[] intensity;
         public int length;
     }
