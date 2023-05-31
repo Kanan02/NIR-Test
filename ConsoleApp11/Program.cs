@@ -56,15 +56,15 @@ uScanConfig scanConfig = new uScanConfig()
 {
     ScanCfg = new ScanConfig()
     {
-        ConfigName = "TestCfg",
+       // ConfigName = "TestCfg",
         WavelengthStartNm = 900,
         WavelengthEndNm = 1700,
-        NumPatterns = 1,
-        NumRepeats = 1,
-        ScanConfigIndex = 0,
+        //NumPatterns = 1,
+        //NumRepeats = 1,
+        //ScanConfigIndex = 0,
         ScanType = 0,
-        ScanConfigSerialNumber = serialNumber.ToString(),
-        WidthPx = 2
+      //  ScanConfigSerialNumber = serialNumber.ToString(),
+        WidthPx = 7
     }
 };
 
@@ -73,21 +73,22 @@ uScanConfig scanConfig = new uScanConfig()
 API.ApplyScanCfgtoDevice(ref scanConfig);
 //Console.WriteLine($"UART Connected: {APILib.NNO_SetUARTConnected(true)}");
 
-//API.SetActiveScanIndex(0);
-//API.SetNumOfRepeats(1);
-//int time = API.GetScanTime();
-//Console.WriteLine(  time);
+API.SetActiveScanIndex(0);
+API.SetNumOfRepeats(1);
+int time = API.GetScanTime();
+Console.WriteLine("Time: " + time);
 
-//API.PerformScan(false);
-//while (!API.ScanCompleted())
-//{
-//    Thread.Sleep(100);
-//}
-//byte[]data=API.GetFileData();
-//var scanres=API.InterpretScanData(data);
-//Console.WriteLine( $"Length: {scanres.length}" );
+API.PerformScan(false);
+while (!API.ScanCompleted())
+{
+    Console.WriteLine("Wait");
+    Thread.Sleep(100);
+}
+byte[]data=API.GetFileData();
+var scanres = API.InterpretScanData(data);
+//Console.WriteLine($"Length: {scanres.length}");
 //for (int i = 0; i < scanres.wavelength.Length; i++)
 //{
-//    Console.WriteLine($"Wavelength: {scanres.wavelength[i]}    Intensity:{scanres.intensity[i]}" );
+//    Console.WriteLine($"Wavelength: {scanres.wavelength[i]}    Intensity:{scanres.intensity[i]}");
 //}
 Console.WriteLine(APILib.USB_Close());

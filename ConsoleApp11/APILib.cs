@@ -14,7 +14,7 @@ namespace ConsoleApp11
         const string DLL_NAME2 = "libdlpspec.dll";
         #region API Funcitons
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int NNO_ApplyScanConfig(IntPtr pBuffer, int bufSize);
+        public static extern int NNO_ApplyScanConfig(byte[] pBuffer, int bufSize);
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern int NNO_SetActiveScanIndex(byte index);

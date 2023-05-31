@@ -57,12 +57,12 @@ namespace ConsoleApp11
                 // Copy the config data to the unmanaged memory
                 Marshal.Copy(config, 0, pConfig, config.Length);
                 // Attempt to apply the config
-                int result = APILib.NNO_ApplyScanConfig(pConfig, config.Length);
-                if (result < 0)
-                {
-                    Console.WriteLine(result);
-                    throw new Exception("Failed to apply scan config.");
-                }
+               // int result = APILib.NNO_ApplyScanConfig(pConfig, config.Length);
+                //if (result < 0)
+                //{
+                //    Console.WriteLine(result);
+                //    throw new Exception("Failed to apply scan config.");
+                //}
             }
             finally
             {
@@ -188,10 +188,10 @@ namespace ConsoleApp11
 
                 if (ret == (int)DLPSPEC_ERR_CODE.DLPSPEC_PASS)
                 {
-                    //byte[] bufferArray = new byte[(int)bufferSize];
-                    //Marshal.Copy(pBuffer, bufferArray, 0, (int)bufferSize);
+                    byte[] bufferArray = new byte[(int)bufferSize];
+                    Marshal.Copy(pBuffer, bufferArray, 0, (int)bufferSize);
 
-                    ret = APILib.NNO_ApplyScanConfig(pBuffer, (int)bufferSize);
+                    ret = APILib.NNO_ApplyScanConfig(bufferArray, (int)bufferSize);
                     Console.WriteLine(ret);
                 }
 
