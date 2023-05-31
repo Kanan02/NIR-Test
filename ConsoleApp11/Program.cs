@@ -86,9 +86,11 @@ while (!API.ScanCompleted())
     Console.WriteLine("Wait");
     Thread.Sleep(100);
 }
-byte[]data=API.GetFileData();
-var scanres = API.InterpretScanData(data);
-//Console.WriteLine($"Length: {scanres.length}");
+//byte[]data=API.GetFileData();
+scanResults scanResults=new scanResults();
+APILib.C_GetScanData(ref scanResults);
+//var scanres = API.InterpretScanData(data);
+Console.WriteLine($"Length: {scanResults.length}");
 //for (int i = 0; i < scanres.wavelength.Length; i++)
 //{
 //    Console.WriteLine($"Wavelength: {scanres.wavelength[i]}    Intensity:{scanres.intensity[i]}");
