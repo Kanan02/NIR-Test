@@ -91,8 +91,8 @@ scanResults2 scanResults=new scanResults2();
 APILib.C_GetScanData(ref scanResults);
 //var scanres = API.InterpretScanData(data);
 Console.WriteLine($"Length: {scanResults.length}");
-//for (int i = 0; i < scanres.wavelength.Length; i++)
-//{
-//    Console.WriteLine($"Wavelength: {scanres.wavelength[i]}    Intensity:{scanres.intensity[i]}");
-//}
+for (int i = 0; i < scanResults.wavelength.Length; i++)
+{
+    Console.WriteLine($"Wavelength: {scanResults.wavelength[i]}    Intensity:{scanResults.intensity[i]}");
+}
 Console.WriteLine(APILib.USB_Close());
